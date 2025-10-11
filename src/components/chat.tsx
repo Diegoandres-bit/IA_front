@@ -2,24 +2,100 @@ import { useState } from "react";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { FiSend } from "react-icons/fi";
 import Message from "./message";
-import TextArea from "./textArea";
+import TextArea from "./TextArea";
+import api from "../api/api";
 
 export default function Chat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ text: string; sender: "user" | "ia" }[]>([]);
   const [input, setInput] = useState("");
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return;
 
-    // Agregar mensaje del usuario
-    setMessages((prev) => [...prev, { text: input, sender: "user" }]);
+    const res = await api.post("/query", { consulta: input }, {
+  headers: { "Content-Type": "application/json" }
+})
+    console.log(res.data);
+     setMessages((prev) => [...prev, { text: input, sender: "user" }]);
     setInput("");
-
-    // Simulación: Respuesta de la IA
-    setTimeout(() => {
-      setMessages((prev) => [...prev, { text: "Soy la IA respondiendo 🤖", sender: "ia" }]);
-    }, 500);
+    console.log(res.data.data.tool);
+     console.log(res?.data?.data.result.data?.result);
+    if (res.data.data.tool === "GetAllStudents") {
+      
+      const respuesta = formatearEstudiantes(res?.data?.data.result.data?.result);
+      setMessages((prev) => [...prev, { text: respuesta, sender: "ia" }]);
+      return;
+    }else if (res.data.data.tool === "CheckSubjectStatus") {
+      const respuesta = formatearResultadoEstado(res?.data?.data.result);
+      setMessages((prev) => [...prev, { text: respuesta, sender: "ia" }]);
+      return; 
+    }else{
+      setMessages((prev) => [...prev, { text: res?.data?.data, sender: "ia" }]);
+    }
+   
   };
+
+  function formatearEstudiantes(data:any) {
+  let resultado = "";
+
+  data.forEach((estudiante: any) => {
+    resultado += `👩‍🎓 *${estudiante.estudiante}* (${estudiante.codigo_estudiante})\n`;
+    resultado += `🏫 Facultad: ${estudiante.facultad}\n`;
+
+    estudiante.semestres.forEach((sem:any) => {
+      resultado += `\n📚 *Semestre ${sem.semestre}*\n`;
+
+      sem.materias.forEach((mat:any) => {
+        resultado += `- Materia: *${mat.nombre}*\n`;
+        resultado += `  Nota final materia: ${mat.nota_final_materia}\n`;
+
+        mat.cortes.forEach((corte:any) => {
+          resultado += `  🧮 Corte ${corte.corte} (${corte.ponderacion_corte}%): ${corte.nota_final_corte}\n`;
+
+          if (corte.notas && corte.notas.length > 0) {
+            corte.notas.forEach((nota:any) => {
+              resultado += `     - ${nota.tipo}: ${nota.valor} (${nota.ponderacion}%)\n`;
+            });
+          }
+        });
+
+        resultado += "\n";
+      });
+    });
+
+    resultado += `\n${"=".repeat(40)}\n\n`;
+  });
+
+  return resultado.trim();
+}
+function formatearResultadoEstado(data: any) {
+  console.log(data);
+    if (!data) {
+      return "No se encontraron resultados para mostrar.";
+    }
+
+    const obtenerConsejo = (nota:any) => {
+      if (nota >= 90) return "🌟 ¡Excelente trabajo! Sigue así, tu esfuerzo está dando grandes resultados.";
+      if (nota >= 80) return "💪 Muy buen desempeño, solo un poco más de práctica y alcanzarás la excelencia.";
+      if (nota >= 70) return "👍 Vas bien, pero aún puedes mejorar. Revisa los temas donde obtuviste menor puntuación.";
+      if (nota >= 60) return "⚠ Necesitas reforzar algunos conceptos. Dedica más tiempo al estudio y pide apoyo si lo necesitas.";
+      return "❌ No lograste el resultado esperado. No te desanimes, repasa el material y busca orientación para mejorar.";
+    };
+
+    let resultado = "📋 Resultados académicos\n\n";
+
+    data.forEach((item:any) => {
+      resultado += `👩‍🎓 *Código:* ${item.codigo_estudiante}\n`;
+      resultado += `📘 *Materia:* ${item.materia}\n`;
+      resultado += `🧾 *Nota final:* ${item.nota_final}\n`;
+      resultado +=` 📊 *Estado:* ${item.estado}\n`;
+      resultado += `💬 ${item.mensaje}\n`;
+      resultado += `💡 Consejo: ${obtenerConsejo(item.nota_final)}\n`;
+      resultado += `\n${"=".repeat(40)}\n\n`;
+    });
+
+    return resultado.trim();
+  }
 
   return (
     <div>
