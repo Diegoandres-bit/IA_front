@@ -6,7 +6,7 @@ interface MessageProps {
   sender: "user" | "ia";
 }
 
-const Message: React.FC<MessageProps> = ({ text, sender }) => {
+export const Message: React.FC<MessageProps> = ({ text, sender }) => {
  const isUser = sender === "user";
   return (
    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
@@ -22,5 +22,3 @@ const Message: React.FC<MessageProps> = ({ text, sender }) => {
 
   );
 };
-
-export default Message;

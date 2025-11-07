@@ -12,7 +12,7 @@ module.exports = {
         lightGray:'#E9ECF9',
         white:'#FFFFFF',
         customWhite:'#f9faffff',
-
+        backgroundColor:'#f9fafb',
     },
   },
   },

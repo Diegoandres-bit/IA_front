@@ -1,3 +1,5 @@
+import React from "react";
+
 interface textAreaProps {
     value: string;
     onChange: (newValue: string) => void;
@@ -5,7 +7,7 @@ interface textAreaProps {
     rows?: number;
 }
 
-const textArea: React.FC<textAreaProps> = ({ value, onChange, disabled,rows }) => {
+export const TextArea: React.FC<textAreaProps> = ({ value, onChange, disabled,rows }) => {
     return (
         <textarea
             value={value}
@@ -17,5 +19,3 @@ const textArea: React.FC<textAreaProps> = ({ value, onChange, disabled,rows }) =
         />
     );
 }
-
-export default textArea;
