@@ -1,9 +1,9 @@
 import { StrictMode, useState } from "react";
 import { RiGraduationCapLine } from "react-icons/ri";
 import "../index.css";
-import {InputText} from "../components/inputText";
+import { InputText } from "../components/inputText";
 
- export default function App() {
+export default function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,20 +25,26 @@ import {InputText} from "../components/inputText";
           onChange={setUsername}
           type="text"
           placeholder="Correo Electrónico"
-        /><br></br><br></br>
-        
+        />
+        <br></br>
+        <br></br>
+
         <InputText
           value={password}
           onChange={setPassword}
           type="password"
           placeholder="Contraseña"
         />
-        <button className="w-full mt-6 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200">Iniciar Sesion</button>
-               <a href="#" className="text-blue-500 hover:text-blue-700 font-medium transition-colors">¿Olvidaste tu contraseña?</a> 
+        <button className="w-full mt-6 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+          Iniciar Sesion
+        </button>
+        <a
+          href="#"
+          className="text-blue-500 hover:text-blue-700 font-medium transition-colors"
+        >
+          ¿Olvidaste tu contraseña?
+        </a>
       </div>
-      
     </div>
   );
 }
-
-

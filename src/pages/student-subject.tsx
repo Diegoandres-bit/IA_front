@@ -1,9 +1,9 @@
-import { StrictMode, useEffect, useState } from 'react'
+import { StrictMode, useEffect, useState } from "react";
 import { IoBookOutline } from "react-icons/io5";
-import Sidebar from '../components/Side-bar.tsx'
+import Sidebar from "../components/Side-bar.tsx";
 import { GoPerson } from "react-icons/go";
 import { CiLogout } from "react-icons/ci";
-import { SubjectCard } from '../components/subject-card.tsx';
+import { SubjectCard } from "../components/subject-card.tsx";
 
 interface Subject {
   id: number;
@@ -40,11 +40,12 @@ export default function StudentsSubjectGrades() {
             { label: "Perfil", href: "#", icon: <GoPerson /> },
             { label: "Cerrar Sesion", href: "/", icon: <CiLogout /> },
           ]}
-           user={{
-          name: "Juan Pérez",
+          user={{
+            name: "Juan Pérez",
             role: "Profesor",
-            image: "https://dinosaurland.es/wp-content/uploads/elementor/thumbs/dinosaurio-stegosaurus-dinosaurland-r1n5jvppvyq7ahgc8fksp9wkzqen5sq9cnu2l3cav4.jpg", 
-            }}
+            image:
+              "https://dinosaurland.es/wp-content/uploads/elementor/thumbs/dinosaurio-stegosaurus-dinosaurland-r1n5jvppvyq7ahgc8fksp9wkzqen5sq9cnu2l3cav4.jpg",
+          }}
           maxItems={3}
         />
 

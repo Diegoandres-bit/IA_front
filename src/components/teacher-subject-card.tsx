@@ -13,7 +13,7 @@ export const SubjectCard: React.FC<TeacherSubjectCardProps> = ({subject,code,Stu
                 <h4 className="text-2xl font-semi-bold mb-2">{subject}</h4>
                 <div className="p-2">
                 <p className="text-lg mb-1">Codigo: {code}</p>
-                <p className="text-lg mb-1">Estudiantes Inscritos: {Students}</p>
+                <p className="text-lg mb-1">Estudiantes Inscritos: {7}</p>
            
                 </div>
            </div>

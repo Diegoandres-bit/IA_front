@@ -1,28 +1,35 @@
 import { useState } from "react";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { FiSend } from "react-icons/fi";
-import {Message} from "./message";
-import {TextArea} from "./TextArea";
+import { Message } from "./message";
+import { TextArea } from "./TextArea";
 import api from "../api/api";
 
 export default function Chat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ text: string; sender: "user" | "ia" }[]>([]);
+  const [messages, setMessages] = useState<
+    { text: string; sender: "user" | "ia" }[]
+  >([]);
   const [input, setInput] = useState("");
 
   const handleSend = async () => {
     if (!input.trim()) return;
 
-    const res = await api.post("/query", { consulta: input }, {
-      headers: { "Content-Type": "application/json" }
-    })
+    const res = await api.post(
+      "/query",
+      { consulta: input },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     console.log(res);
-    
+
     setMessages((prev) => [...prev, { text: input, sender: "user" }]);
     setInput("");
     if (res.data.data.tool === "GetAllStudents") {
-
-      const respuesta = formatearEstudiantes(res?.data?.data.result.data?.result);
+      const respuesta = formatearEstudiantes(
+        res?.data?.data.result.data?.result
+      );
       setMessages((prev) => [...prev, { text: respuesta, sender: "ia" }]);
       return;
     } else if (res.data.data.tool === "CheckSubjectStatus") {
@@ -30,9 +37,11 @@ export default function Chat() {
       setMessages((prev) => [...prev, { text: respuesta, sender: "ia" }]);
       return;
     } else {
-      setMessages((prev) => [...prev, { text: res?.data?.data?.result?.data, sender: "ia" }]);
+      setMessages((prev) => [
+        ...prev,
+        { text: res?.data?.data?.result?.data, sender: "ia" },
+      ]);
     }
-
   };
 
   function formatearEstudiantes(data: any) {
@@ -69,16 +78,19 @@ export default function Chat() {
     return resultado.trim();
   }
   function formatearResultadoEstado(data: any) {
-   
     if (!data) {
       return "No se encontraron resultados para mostrar.";
     }
 
     const obtenerConsejo = (nota: any) => {
-      if (nota >= 90) return "🌟 ¡Excelente trabajo! Sigue así, tu esfuerzo está dando grandes resultados.";
-      if (nota >= 80) return "💪 Muy buen desempeño, solo un poco más de práctica y alcanzarás la excelencia.";
-      if (nota >= 70) return "👍 Vas bien, pero aún puedes mejorar. Revisa los temas donde obtuviste menor puntuación.";
-      if (nota >= 60) return "⚠ Necesitas reforzar algunos conceptos. Dedica más tiempo al estudio y pide apoyo si lo necesitas.";
+      if (nota >= 90)
+        return "🌟 ¡Excelente trabajo! Sigue así, tu esfuerzo está dando grandes resultados.";
+      if (nota >= 80)
+        return "💪 Muy buen desempeño, solo un poco más de práctica y alcanzarás la excelencia.";
+      if (nota >= 70)
+        return "👍 Vas bien, pero aún puedes mejorar. Revisa los temas donde obtuviste menor puntuación.";
+      if (nota >= 60)
+        return "⚠ Necesitas reforzar algunos conceptos. Dedica más tiempo al estudio y pide apoyo si lo necesitas.";
       return "❌ No lograste el resultado esperado. No te desanimes, repasa el material y busca orientación para mejorar.";
     };
 
@@ -110,7 +122,6 @@ export default function Chat() {
 
       {isOpen && (
         <div className="fixed bottom-28 right-5 w-1/4 h-1/2 shadow-2xl rounded-xl border flex flex-col bg-white">
-
           {/* Header completo */}
           <div className="flex justify-between items-center px-4 py-4 bg-lightGray rounded-t-xl">
             <h2 className="text-lg font-bold">Asistente de Notas</h2>
@@ -135,14 +146,21 @@ export default function Chat() {
 
           {/* Input */}
           <div className="flex items-center p-4 bg-white rounded-lg shadow">
-            <TextArea value={input} onChange={setInput} rows={1} disabled={false} />
-            <button className="bg-blue-600 text-white p-5 ml-2 rounded-xl hover:bg-blue-700" onClick={handleSend}>
+            <TextArea
+              value={input}
+              onChange={setInput}
+              rows={1}
+              disabled={false}
+            />
+            <button
+              className="bg-blue-600 text-white p-5 ml-2 rounded-xl hover:bg-blue-700"
+              onClick={handleSend}
+            >
               <FiSend />
             </button>
           </div>
         </div>
       )}
-
     </div>
   );
 }

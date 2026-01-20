@@ -7,9 +7,9 @@ interface MessageProps {
 }
 
 export const Message: React.FC<MessageProps> = ({ text, sender }) => {
- const isUser = sender === "user";
+  const isUser = sender === "user";
   return (
-   <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
         className={`max-w-[70%] p-3 rounded-2xl text-xl whitespace-pre-wrap break-words ${
           isUser ? "bg-blue-600 text-white" : "bg-lightGray text-black"
@@ -18,7 +18,5 @@ export const Message: React.FC<MessageProps> = ({ text, sender }) => {
         {text}
       </div>
     </div>
-
-
   );
 };

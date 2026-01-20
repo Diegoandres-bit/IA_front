@@ -16,7 +16,7 @@ interface UserInfo {
 interface SidebarProps {
   items: SidebarItem[];
   maxItems?: number;
-  user: UserInfo; 
+  user: UserInfo;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ items, maxItems, user }) => {
@@ -25,7 +25,6 @@ const Sidebar: React.FC<SidebarProps> = ({ items, maxItems, user }) => {
   return (
     <div className="fixed left-0 top-0 h-screen bg-customBlue p-4 w-[360px] z-50">
       <aside className="flex flex-col h-full justify-between">
-       
         <div>
           <div className="flex items-center gap-3 mb-6">
             <RiGraduationCapLine className="text-4xl text-blue-500" />

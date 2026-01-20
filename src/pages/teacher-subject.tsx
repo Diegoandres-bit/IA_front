@@ -1,9 +1,9 @@
-import { StrictMode, useEffect, useState } from 'react'
+import { StrictMode, useEffect, useState } from "react";
 import { IoBookOutline } from "react-icons/io5";
-import Sidebar from '../components/Side-bar.tsx'
+import Sidebar from "../components/Side-bar.tsx";
 import { GoPerson } from "react-icons/go";
 import { CiLogout } from "react-icons/ci";
-import { SubjectCard } from '../components/teacher-subject-card.tsx';
+import { SubjectCard } from "../components/teacher-subject-card.tsx";
 
 // Definimos el tipo de datos que viene del backend
 interface TeacherSubject {
@@ -20,11 +20,13 @@ export default function StudentsSubjectGrades() {
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const response = await fetch('http://localhost:9010/api/teacher/subjects'); // <-- Cambia por tu endpoint real
+        const response = await fetch(
+          "http://localhost:9010/api/teacher/subjects"
+        ); // <-- Cambia por tu endpoint real
         const data = await response.json();
         setSubjects(data);
       } catch (error) {
-        console.error('Error al obtener las materias:', error);
+        console.error("Error al obtener las materias:", error);
       }
     };
 
@@ -41,10 +43,11 @@ export default function StudentsSubjectGrades() {
             { label: "Cerrar Sesión", href: "/", icon: <CiLogout /> },
           ]}
           user={{
-          name: "Juan Pérez",
+            name: "Juan Pérez",
             role: "Profesor",
-            image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fdinosaurland.es%2Fdinos%2Fstegosaurus%2F&psig=AOvVaw1GdTvCfwuObEBAI9DDg43v&ust=1762634949381000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCICMsYn14JADFQAAAAAdAAAAABAE", // ejemplo de avatar
-            }}
+            image:
+              "https://www.google.com/url?sa=i&url=https%3A%2F%2Fdinosaurland.es%2Fdinos%2Fstegosaurus%2F&psig=AOvVaw1GdTvCfwuObEBAI9DDg43v&ust=1762634949381000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCICMsYn14JADFQAAAAAdAAAAABAE", // ejemplo de avatar
+          }}
           maxItems={3}
         />
 
